@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace EsoftSalary
 {
-    public partial class TaskList : Form
+    public partial class PerformersList : Form
     {
-        public TaskList()
+        public PerformersList()
         {
             InitializeComponent();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

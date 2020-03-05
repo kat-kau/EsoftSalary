@@ -52,8 +52,20 @@
     <Compile Include="Autoriz.Designer.cs">
       <DependentUpon>Autoriz.cs</DependentUpon>
     </Compile>
+    <Compile Include="PerformersList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PerformersList.Designer.cs">
+      <DependentUpon>PerformersList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskAdd.Designer.cs">
+      <DependentUpon>TaskAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaskList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +75,9 @@
     <EmbeddedResource Include="Autoriz.resx">
       <DependentUpon>Autoriz.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PerformersList.resx">
+      <DependentUpon>PerformersList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -71,7 +86,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TaskAdd.resx">
+      <DependentUpon>TaskAdd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TaskList.resx">
       <DependentUpon>TaskList.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
