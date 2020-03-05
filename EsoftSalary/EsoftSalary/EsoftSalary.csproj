@@ -52,11 +52,11 @@
     <Compile Include="Autoriz.Designer.cs">
       <DependentUpon>Autoriz.cs</DependentUpon>
     </Compile>
-    <Compile Include="PerformersList.cs">
+    <Compile Include="ExecutorList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PerformersList.Designer.cs">
-      <DependentUpon>PerformersList.cs</DependentUpon>
+    <Compile Include="ExecutorList.Designer.cs">
+      <DependentUpon>ExecutorList.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,8 +75,8 @@
     <EmbeddedResource Include="Autoriz.resx">
       <DependentUpon>Autoriz.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PerformersList.resx">
-      <DependentUpon>PerformersList.cs</DependentUpon>
+    <EmbeddedResource Include="ExecutorList.resx">
+      <DependentUpon>ExecutorList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
