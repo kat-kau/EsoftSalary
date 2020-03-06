@@ -18,6 +18,7 @@ namespace EsoftSalary
             InitializeComponent();
         }
 
+        public string managerName = "";
         private void button2_Click(object sender, EventArgs e)
         {
             TaskAdd tl = new TaskAdd();
@@ -308,6 +309,8 @@ namespace EsoftSalary
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Autoriz aut = (Autoriz)this.Owner;
+            managerName = aut.userName;
             OddsManagement om = new OddsManagement();
             om.Show(this);
             this.Hide();
