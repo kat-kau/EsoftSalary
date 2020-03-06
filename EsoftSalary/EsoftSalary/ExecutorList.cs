@@ -21,5 +21,11 @@ namespace EsoftSalary
         {
             Environment.Exit(0);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Application.OpenForms[1].Show();
+            this.Close();
+        }
     }
 }

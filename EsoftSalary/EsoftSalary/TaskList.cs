@@ -20,7 +20,9 @@ namespace EsoftSalary
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            TaskAdd tl = new TaskAdd();
+            tl.Show(this);
+            this.Hide();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -288,6 +290,27 @@ namespace EsoftSalary
                 row.Visible = true;
             }
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            TaskAdd tl = new TaskAdd();
+            tl.Show(this);
+            this.Hide();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ExecutorList el = new ExecutorList();
+            el.Show(this);
+            this.Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OddsManagement om = new OddsManagement();
+            om.Show(this);
+            this.Hide();
         }
     }
 }

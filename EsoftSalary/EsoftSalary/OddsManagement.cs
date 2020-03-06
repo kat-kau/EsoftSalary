@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace EsoftSalary
 {
-    public partial class TaskAdd : Form
+    public partial class OddsManagement : Form
     {
-        public TaskAdd()
+        public OddsManagement()
         {
             InitializeComponent();
         }
