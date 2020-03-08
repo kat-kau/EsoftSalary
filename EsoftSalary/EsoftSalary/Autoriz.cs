@@ -35,7 +35,9 @@ namespace EsoftSalary
                     {
                         MessageBox.Show("Авторизация успешна! Вы вошли как исполнитель");
                         user = "executor";
+                        Properties.Settings.Default.user = "executor";
                         userName = textBox1.Text;
+                        Properties.Settings.Default.userName = textBox1.Text;
                         TaskList tl = new TaskList();
                         tl.Show(this);
                         this.Hide();
@@ -49,8 +51,9 @@ namespace EsoftSalary
                         {
                             MessageBox.Show("Авторизация успешна! Вы вошли как менеджер");
                             user = "manager";
+                            Properties.Settings.Default.user = "manager";
                             userName = textBox1.Text;
-
+                            Properties.Settings.Default.userName = textBox1.Text;
 
                             TaskList tl = new TaskList();
                             tl.Show(this);

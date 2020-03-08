@@ -34,7 +34,7 @@ namespace EsoftSalary
         private void TaskList_Load(object sender, EventArgs e)
         {
             Autoriz aut = (Autoriz)this.Owner;
-            if (aut.user == "manager")
+            if (Properties.Settings.Default.user == "manager")
             {
                 label1.Visible = true;
                 label5.Visible = true;
@@ -48,7 +48,7 @@ namespace EsoftSalary
                     using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
                     {
                         con.Open();
-                        SqlCommand com = new SqlCommand("SELECT        Задачи.Заголовок, Задачи.Статус, Исполнители.ФИО_исполнителя, Менаджеры.ФИО_менеджера FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + aut.userName + "'", con);
+                        SqlCommand com = new SqlCommand("SELECT  Задачи.ID_задачи,  Задачи.Заголовок, Задачи.Статус, Исполнители.ФИО_исполнителя, Менаджеры.ФИО_менеджера FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + Properties.Settings.Default.userName + "' AND Задачи.deleted = 0", con);
 
                         SqlDataReader dr = com.ExecuteReader();
                         int i = 0;
@@ -57,25 +57,26 @@ namespace EsoftSalary
 
                             dataGridView1.Rows.Add();
                             dataGridView1.Rows[i].Cells[0].Value = dr[0].ToString();
+                            dataGridView1.Rows[i].Cells[1].Value = dr[1].ToString();
 
-                            switch (dr[1].ToString())
+                            switch (dr[2].ToString())
                             {
                                 case "plan":
-                                    dataGridView1.Rows[i].Cells[1].Value = "Запланирована";
+                                    dataGridView1.Rows[i].Cells[2].Value = "Запланирована";
                                     break;
                                 case "exec":
-                                    dataGridView1.Rows[i].Cells[1].Value = "Исполняется";
+                                    dataGridView1.Rows[i].Cells[2].Value = "Исполняется";
                                     break;
                                 case "completed":
-                                    dataGridView1.Rows[i].Cells[1].Value = "Выполнена";
+                                    dataGridView1.Rows[i].Cells[2].Value = "Выполнена";
                                     break;
                                 case "cancel":
-                                    dataGridView1.Rows[i].Cells[1].Value = "Отменена";
+                                    dataGridView1.Rows[i].Cells[2].Value = "Отменена";
                                     break;
                             }
 
-                            dataGridView1.Rows[i].Cells[2].Value = dr[2].ToString();
                             dataGridView1.Rows[i].Cells[3].Value = dr[3].ToString();
+                            dataGridView1.Rows[i].Cells[4].Value = dr[4].ToString();
                             i++;
 
                         }
@@ -84,6 +85,7 @@ namespace EsoftSalary
                         con.Close();
 
                     }
+                    //dataGridView1.Columns[0].Visible = false;
                 }
                 catch (SqlException E)
                 {
@@ -98,7 +100,7 @@ namespace EsoftSalary
                     using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
                     {
                         con.Open();
-                        SqlCommand com = new SqlCommand("SELECT        Задачи.Статус FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + aut.userName + "' GROUP BY Задачи.Статус", con);
+                        SqlCommand com = new SqlCommand("SELECT        Задачи.Статус FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + Properties.Settings.Default.userName + "' AND Задачи.deleted = 0 GROUP BY Задачи.Статус", con);
                         SqlDataReader dr = com.ExecuteReader();
                         int i = 0;
                         comboBox3.Items.Add("-");
@@ -140,7 +142,7 @@ namespace EsoftSalary
                     using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
                     {
                         con.Open();
-                        SqlCommand com = new SqlCommand("SELECT        Исполнители.ФИО_исполнителя FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + aut.userName + "' GROUP BY Исполнители.ФИО_исполнителя", con);
+                        SqlCommand com = new SqlCommand("SELECT        Исполнители.ФИО_исполнителя FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + Properties.Settings.Default.userName + "' AND Задачи.deleted = 0 GROUP BY Исполнители.ФИО_исполнителя", con);
                         SqlDataReader dr = com.ExecuteReader();
                         int i = 0;
                         comboBox2.Items.Add("-");
@@ -162,7 +164,7 @@ namespace EsoftSalary
                     MessageBox.Show("Возникла ошибка: " + E.Message);
                 }
             }
-            else if (aut.user == "executor")
+            else if (Properties.Settings.Default.user == "executor")
             {
                 comboBox1.Visible = true;
                 label2.Visible = true;
@@ -172,7 +174,7 @@ namespace EsoftSalary
                     using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
                     {
                         con.Open();
-                        SqlCommand com = new SqlCommand("SELECT        Задачи.Заголовок, Задачи.Статус, Исполнители.ФИО_исполнителя, Менаджеры.ФИО_менеджера FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Исполнители.Логин_исполнителя = '" + aut.userName + "'", con);
+                        SqlCommand com = new SqlCommand("SELECT       Задачи.ID_задачи, Задачи.Заголовок, Задачи.Статус, Исполнители.ФИО_исполнителя, Менаджеры.ФИО_менеджера FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Исполнители.Логин_исполнителя = '" + Properties.Settings.Default.userName + "' AND Задачи.deleted = 0 ", con);
 
                         SqlDataReader dr = com.ExecuteReader();
                         int i = 0;
@@ -181,30 +183,32 @@ namespace EsoftSalary
 
                             dataGridView1.Rows.Add();
                             dataGridView1.Rows[i].Cells[0].Value = dr[0].ToString();
+                            dataGridView1.Rows[i].Cells[1].Value = dr[1].ToString();
 
-                            switch (dr[1].ToString())
+                            switch (dr[2].ToString())
                             {
                                 case "plan":
-                                    dataGridView1.Rows[i].Cells[1].Value = "Запланирована";
+                                    dataGridView1.Rows[i].Cells[2].Value = "Запланирована";
                                     break;
                                 case "exec":
-                                    dataGridView1.Rows[i].Cells[1].Value = "Исполняется";
+                                    dataGridView1.Rows[i].Cells[2].Value = "Исполняется";
                                     break;
                                 case "completed":
-                                    dataGridView1.Rows[i].Cells[1].Value = "Выполнена";
+                                    dataGridView1.Rows[i].Cells[2].Value = "Выполнена";
                                     break;
                                 case "cancel":
-                                    dataGridView1.Rows[i].Cells[1].Value = "Отменена";
+                                    dataGridView1.Rows[i].Cells[2].Value = "Отменена";
                                     break;
                             }
 
-                            dataGridView1.Rows[i].Cells[2].Value = dr[2].ToString();
                             dataGridView1.Rows[i].Cells[3].Value = dr[3].ToString();
+                            dataGridView1.Rows[i].Cells[4].Value = dr[4].ToString();
                             i++;
 
                         }
                         con.Close();
                     }
+                    //dataGridView1.Columns[0].Visible = false;
                 }
                 catch (SqlException E)
                 {
@@ -219,7 +223,7 @@ namespace EsoftSalary
                     using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
                     {
                         con.Open();
-                        SqlCommand com = new SqlCommand("SELECT        Задачи.Статус FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Исполнители.Логин_исполнителя = '" + aut.userName + "' GROUP BY Задачи.Статус", con);
+                        SqlCommand com = new SqlCommand("SELECT        Задачи.Статус FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Исполнители.Логин_исполнителя = '" + Properties.Settings.Default.userName + "' AND Задачи.deleted = 0 GROUP BY Задачи.Статус", con);
                         SqlDataReader dr = com.ExecuteReader();
                         int i = 0;
                         while (dr.Read())
@@ -273,7 +277,7 @@ namespace EsoftSalary
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 row.Visible = false;
-                if (row.Cells[1].Value.ToString() == comboBox1.Text)
+                if (row.Cells[2].Value.ToString() == comboBox1.Text)
                 {
                     row.Visible = true;
                 }
@@ -310,7 +314,7 @@ namespace EsoftSalary
         private void button1_Click(object sender, EventArgs e)
         {
             Autoriz aut = (Autoriz)this.Owner;
-            managerName = aut.userName;
+            managerName = Properties.Settings.Default.userName;
             OddsManagement om = new OddsManagement();
             om.Show(this);
             this.Hide();
@@ -333,7 +337,7 @@ namespace EsoftSalary
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         row.Visible = false;
-                        if (row.Cells[2].Value.ToString() == comboBox2.Text)
+                        if (row.Cells[3].Value.ToString() == comboBox2.Text)
                         {
                             row.Visible = true;
                         }
@@ -346,7 +350,7 @@ namespace EsoftSalary
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         row.Visible = false;
-                        if (row.Cells[1].Value.ToString() == comboBox3.Text)
+                        if (row.Cells[2].Value.ToString() == comboBox3.Text)
                         {
                             row.Visible = true;
                         }
@@ -356,7 +360,7 @@ namespace EsoftSalary
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         row.Visible = false;
-                        if (row.Cells[1].Value.ToString() == comboBox3.Text && row.Cells[2].Value.ToString() == comboBox2.Text)
+                        if (row.Cells[2].Value.ToString() == comboBox3.Text && row.Cells[3].Value.ToString() == comboBox2.Text)
                         {
                             row.Visible = true;
                         }
@@ -372,17 +376,14 @@ namespace EsoftSalary
             if (resualt.ToString() == "OK")
             {
                 string del = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                int houseNum = Convert.ToInt32(dataGridView1.CurrentRow.Cells[4].Value.ToString());
-
-                if (houseNum == 0)
-                {
+                MessageBox.Show(del);
                     try
                     {
-                        using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = Esoft; Integrated Security = true"))
+                        using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
                         {
                             con.Open();
 
-                            SqlCommand com = new SqlCommand("UPDATE [dbo].[complexes] SET [deleted] = 1 WHERE id=" + del + ";", con);
+                            SqlCommand com = new SqlCommand("UPDATE [dbo].[Задачи] SET [deleted] = 1 WHERE [ID_задачи] = " + del + ";", con);
                             com.ExecuteNonQuery();
                             con.Close();
                         }
@@ -394,11 +395,7 @@ namespace EsoftSalary
                     {
                         MessageBox.Show("Внимание, возникла ошибка: " + E.Message);
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Внимание, нельзя удалить ЖК, в котором есть дома!");
-                }
+                
             }
         }
     }
