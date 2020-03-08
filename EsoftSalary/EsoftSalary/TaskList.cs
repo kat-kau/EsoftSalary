@@ -39,7 +39,9 @@ namespace EsoftSalary
                 label1.Visible = true;
                 label5.Visible = true;
                 comboBox2.Visible = true;
+                comboBox3.Visible = true;
                 button1.Visible = true;
+                button9.Visible = true;
 
                 try
                 {
@@ -99,22 +101,24 @@ namespace EsoftSalary
                         SqlCommand com = new SqlCommand("SELECT        Задачи.Статус FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + aut.userName + "' GROUP BY Задачи.Статус", con);
                         SqlDataReader dr = com.ExecuteReader();
                         int i = 0;
+                        comboBox3.Items.Add("-");
+                        comboBox3.SelectedIndex = 0;
                         while (dr.Read())
                         {
-
+                            
                             switch (dr[0].ToString())
                             {
                                 case "plan":
-                                    comboBox1.Items.Add("Запланирована");
+                                    comboBox3.Items.Add("Запланирована");
                                     break;
                                 case "exec":
-                                    comboBox1.Items.Add("Исполняется");
+                                    comboBox3.Items.Add("Исполняется");
                                     break;
                                 case "completed":
-                                    comboBox1.Items.Add("Выполнена");
+                                    comboBox3.Items.Add("Выполнена");
                                     break;
                                 case "cancel":
-                                    comboBox1.Items.Add("Отменена");
+                                    comboBox3.Items.Add("Отменена");
                                     break;
                             }
                             i++;
@@ -139,6 +143,8 @@ namespace EsoftSalary
                         SqlCommand com = new SqlCommand("SELECT        Исполнители.ФИО_исполнителя FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + aut.userName + "' GROUP BY Исполнители.ФИО_исполнителя", con);
                         SqlDataReader dr = com.ExecuteReader();
                         int i = 0;
+                        comboBox2.Items.Add("-");
+                        comboBox2.SelectedIndex = 0;
                         while (dr.Read())
                         {
                             
@@ -158,6 +164,7 @@ namespace EsoftSalary
             }
             else if (aut.user == "executor")
             {
+                comboBox1.Visible = true;
                 label2.Visible = true;
 
                 try
@@ -283,14 +290,7 @@ namespace EsoftSalary
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                row.Visible = false;
-            if (row.Cells[2].Value.ToString() == comboBox2.Text)
-            {
-                row.Visible = true;
-            }
-            }
+            
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -314,6 +314,55 @@ namespace EsoftSalary
             OddsManagement om = new OddsManagement();
             om.Show(this);
             this.Hide();
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (comboBox3.Text == "-")
+            {
+                if (comboBox2.Text == "-")
+                {
+                    MessageBox.Show("Укажите параметры фильтрации");
+                } else
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Visible = false;
+                        if (row.Cells[2].Value.ToString() == comboBox2.Text)
+                        {
+                            row.Visible = true;
+                        }
+                    }
+                }
+            } else
+            {
+                if (comboBox2.Text == "-")
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Visible = false;
+                        if (row.Cells[1].Value.ToString() == comboBox3.Text)
+                        {
+                            row.Visible = true;
+                        }
+                    }
+                } else
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Visible = false;
+                        if (row.Cells[1].Value.ToString() == comboBox3.Text && row.Cells[2].Value.ToString() == comboBox2.Text)
+                        {
+                            row.Visible = true;
+                        }
+                    }
+                }
+            }
         }
     }
 }
