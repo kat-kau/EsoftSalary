@@ -37,13 +37,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -51,6 +49,9 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -136,15 +137,6 @@
             this.maskedTextBox1.TabIndex = 13;
             this.maskedTextBox1.ValidatingType = typeof(System.DateTime);
             // 
-            // maskedTextBox2
-            // 
-            this.maskedTextBox2.Location = new System.Drawing.Point(251, 280);
-            this.maskedTextBox2.Mask = "00.00.0000";
-            this.maskedTextBox2.Name = "maskedTextBox2";
-            this.maskedTextBox2.Size = new System.Drawing.Size(192, 20);
-            this.maskedTextBox2.TabIndex = 15;
-            this.maskedTextBox2.ValidatingType = typeof(System.DateTime);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -157,9 +149,11 @@
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(251, 310);
+            this.textBox3.MaxLength = 2;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(192, 20);
             this.textBox3.TabIndex = 17;
+            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // label5
             // 
@@ -173,9 +167,11 @@
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(251, 340);
+            this.textBox4.MaxLength = 10;
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(192, 20);
             this.textBox4.TabIndex = 19;
+            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
             // 
             // label6
             // 
@@ -185,13 +181,6 @@
             this.label6.Size = new System.Drawing.Size(161, 13);
             this.label6.TabIndex = 18;
             this.label6.Text = "Время на выполнение задачи:";
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(251, 370);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(192, 20);
-            this.textBox5.TabIndex = 21;
             // 
             // label7
             // 
@@ -204,7 +193,13 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Запланирована",
+            "Исполняется",
+            "Выполнена",
+            "Отменена"});
             this.comboBox1.Location = new System.Drawing.Point(251, 402);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(192, 21);
@@ -230,10 +225,15 @@
             // 
             // comboBox2
             // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Анализ и проектирование",
+            "Установка оборудования",
+            "Техническое обслуживание и сопровождение"});
             this.comboBox2.Location = new System.Drawing.Point(251, 436);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(192, 21);
+            this.comboBox2.Size = new System.Drawing.Size(258, 21);
             this.comboBox2.TabIndex = 24;
             // 
             // label10
@@ -253,19 +253,48 @@
             this.textBox6.Size = new System.Drawing.Size(192, 20);
             this.textBox6.TabIndex = 27;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(361, 519);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(100, 29);
+            this.button3.TabIndex = 28;
+            this.button3.Text = "Создать";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(251, 370);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(192, 21);
+            this.comboBox3.TabIndex = 29;
+            // 
+            // maskedTextBox2
+            // 
+            this.maskedTextBox2.Location = new System.Drawing.Point(251, 280);
+            this.maskedTextBox2.Mask = "00.00.0000";
+            this.maskedTextBox2.Name = "maskedTextBox2";
+            this.maskedTextBox2.Size = new System.Drawing.Size(192, 20);
+            this.maskedTextBox2.TabIndex = 15;
+            this.maskedTextBox2.ValidatingType = typeof(System.DateTime);
+            // 
             // TaskAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(803, 560);
             this.ControlBox = false;
+            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox5);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label6);
@@ -283,7 +312,8 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Name = "TaskAdd";
-            this.Text = "TaskAdd";
+            this.Text = "Добавить задачу";
+            this.Load += new System.EventHandler(this.TaskAdd_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -301,13 +331,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label8;
@@ -315,5 +343,8 @@
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
     }
 }

@@ -80,7 +80,7 @@ namespace EsoftSalary
                             i++;
 
                         }
-                        
+
 
                         con.Close();
 
@@ -107,7 +107,7 @@ namespace EsoftSalary
                         comboBox3.SelectedIndex = 0;
                         while (dr.Read())
                         {
-                            
+
                             switch (dr[0].ToString())
                             {
                                 case "plan":
@@ -149,7 +149,7 @@ namespace EsoftSalary
                         comboBox2.SelectedIndex = 0;
                         while (dr.Read())
                         {
-                            
+
                             comboBox2.Items.Add(dr[0].ToString());
                             i++;
                         }
@@ -294,7 +294,7 @@ namespace EsoftSalary
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -332,7 +332,8 @@ namespace EsoftSalary
                 if (comboBox2.Text == "-")
                 {
                     MessageBox.Show("Укажите параметры фильтрации");
-                } else
+                }
+                else
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
@@ -343,7 +344,8 @@ namespace EsoftSalary
                         }
                     }
                 }
-            } else
+            }
+            else
             {
                 if (comboBox2.Text == "-")
                 {
@@ -355,7 +357,8 @@ namespace EsoftSalary
                             row.Visible = true;
                         }
                     }
-                } else
+                }
+                else
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
@@ -376,26 +379,136 @@ namespace EsoftSalary
             if (resualt.ToString() == "OK")
             {
                 string del = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                MessageBox.Show(del);
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
+                    {
+                        con.Open();
+
+                        SqlCommand com = new SqlCommand("UPDATE [dbo].[Задачи] SET [deleted] = 1 WHERE [ID_задачи] = " + del + ";", con);
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+
+                    int delet = dataGridView1.SelectedCells[0].RowIndex;
+                    dataGridView1.Rows.RemoveAt(delet);
+                    comboBox1.Items.Clear();
+                    comboBox2.Items.Clear();
+                    comboBox3.Items.Clear();
                     try
                     {
                         using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
                         {
                             con.Open();
+                            SqlCommand com = new SqlCommand("SELECT        Задачи.Статус FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + Properties.Settings.Default.userName + "' AND Задачи.deleted = 0 GROUP BY Задачи.Статус", con);
+                            SqlDataReader dr = com.ExecuteReader();
+                            int i = 0;
+                            comboBox3.Items.Add("-");
+                            comboBox3.SelectedIndex = 0;
+                            while (dr.Read())
+                            {
 
-                            SqlCommand com = new SqlCommand("UPDATE [dbo].[Задачи] SET [deleted] = 1 WHERE [ID_задачи] = " + del + ";", con);
-                            com.ExecuteNonQuery();
+                                switch (dr[0].ToString())
+                                {
+                                    case "plan":
+                                        comboBox3.Items.Add("Запланирована");
+                                        break;
+                                    case "exec":
+                                        comboBox3.Items.Add("Исполняется");
+                                        break;
+                                    case "completed":
+                                        comboBox3.Items.Add("Выполнена");
+                                        break;
+                                    case "cancel":
+                                        comboBox3.Items.Add("Отменена");
+                                        break;
+                                }
+                                i++;
+                            }
                             con.Close();
-                        }
 
-                        int delet = dataGridView1.SelectedCells[0].RowIndex;
-                        dataGridView1.Rows.RemoveAt(delet);
+
+
+                        }
                     }
-                    catch (System.Data.SqlClient.SqlException E)
+                    catch (SqlException E)
                     {
-                        MessageBox.Show("Внимание, возникла ошибка: " + E.Message);
+                        MessageBox.Show("Возникла ошибка: " + E.Message);
                     }
-                
+
+
+                    try
+                    {
+                        using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
+                        {
+                            con.Open();
+                            SqlCommand com = new SqlCommand("SELECT        Исполнители.ФИО_исполнителя FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Менаджеры.Логин_менеджера = '" + Properties.Settings.Default.userName + "' AND Задачи.deleted = 0 GROUP BY Исполнители.ФИО_исполнителя", con);
+                            SqlDataReader dr = com.ExecuteReader();
+                            int i = 0;
+                            comboBox2.Items.Add("-");
+                            comboBox2.SelectedIndex = 0;
+                            while (dr.Read())
+                            {
+
+                                comboBox2.Items.Add(dr[0].ToString());
+                                i++;
+                            }
+                            con.Close();
+
+
+
+                        }
+                    }
+                    catch (SqlException E)
+                    {
+                        MessageBox.Show("Возникла ошибка: " + E.Message);
+                    }
+
+                    try
+                    {
+                        using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = EsoftSalary; Integrated Security = true"))
+                        {
+                            con.Open();
+                            SqlCommand com = new SqlCommand("SELECT        Задачи.Статус FROM            Задачи INNER JOIN Исполнители ON Задачи.ID_исполнителя = Исполнители.ID_исполнителя INNER JOIN Менаджеры ON Исполнители.ID_менаджера = Менаджеры.ID_менеджера WHERE Исполнители.Логин_исполнителя = '" + Properties.Settings.Default.userName + "' AND Задачи.deleted = 0 GROUP BY Задачи.Статус", con);
+                            SqlDataReader dr = com.ExecuteReader();
+                            int i = 0;
+                            while (dr.Read())
+                            {
+
+                                switch (dr[0].ToString())
+                                {
+                                    case "plan":
+                                        comboBox1.Items.Add("Запланирована");
+                                        break;
+                                    case "exec":
+                                        comboBox1.Items.Add("Исполняется");
+                                        break;
+                                    case "completed":
+                                        comboBox1.Items.Add("Выполнена");
+                                        break;
+                                    case "cancel":
+                                        comboBox1.Items.Add("Отменена");
+                                        break;
+                                }
+                                i++;
+                            }
+                            con.Close();
+
+
+
+                        }
+                    }
+                    catch (SqlException E)
+                    {
+                        MessageBox.Show("Возникла ошибка: " + E.Message);
+                    }
+
+                }
+                catch (System.Data.SqlClient.SqlException E)
+                {
+                    MessageBox.Show("Внимание, возникла ошибка: " + E.Message);
+                }
+
             }
         }
     }
