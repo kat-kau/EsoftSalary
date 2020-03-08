@@ -364,5 +364,42 @@ namespace EsoftSalary
                 }
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DialogResult resualt = MessageBox.Show("Удалить задачу?", "Удаление", MessageBoxButtons.OKCancel);
+
+            if (resualt.ToString() == "OK")
+            {
+                string del = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                int houseNum = Convert.ToInt32(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+
+                if (houseNum == 0)
+                {
+                    try
+                    {
+                        using (SqlConnection con = new SqlConnection(@"Data Source = .\SQLSERVER; Initial Catalog = Esoft; Integrated Security = true"))
+                        {
+                            con.Open();
+
+                            SqlCommand com = new SqlCommand("UPDATE [dbo].[complexes] SET [deleted] = 1 WHERE id=" + del + ";", con);
+                            com.ExecuteNonQuery();
+                            con.Close();
+                        }
+
+                        int delet = dataGridView1.SelectedCells[0].RowIndex;
+                        dataGridView1.Rows.RemoveAt(delet);
+                    }
+                    catch (System.Data.SqlClient.SqlException E)
+                    {
+                        MessageBox.Show("Внимание, возникла ошибка: " + E.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Внимание, нельзя удалить ЖК, в котором есть дома!");
+                }
+            }
+        }
     }
 }
